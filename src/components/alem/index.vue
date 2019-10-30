@@ -150,7 +150,7 @@
             </el-form>
           </div>
           <el-table
-            :data="tableDatas.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            :data="tableDatas"
             style="width: 100%;"
             class="tabP"
           >
@@ -192,7 +192,7 @@
 
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogEditgsVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEditForm()">确 定</el-button>
+                    <el-button type="primary" @click="saveEditForm">确 定</el-button>
                   </div>
                 </el-dialog>
                 <!-- 删除 -->
@@ -305,7 +305,8 @@ export default {
         name: "",
         sort: 99,
         arrayAbility: [],
-        temArr: []
+        temArr: [],
+        
       },
       title: "",
       title1: "",
@@ -633,10 +634,11 @@ export default {
     editgsForm(index, row) {
       let updatas = {
         name: this.editForm.name,
-        email: this.editForm.email
+        email: this.editForm.email,
+        phone: this.editForm.phone
       };
       this.dialogEditgsVisible = true;
-      console.log(this.editForm.temArr);
+      console.log(this.editForm.temArr,'this.dialogEditgsVisible');
       row.temArr = this.editForm.temArr;
       console.log(row, "row");
       this.title = "编辑";
@@ -646,6 +648,7 @@ export default {
       console.log(row.abilityIDs, "row.abilityIDs"); //111,116,115,114,122,113,112,119 row.abilityIDs
       //arr1 = row.abilityIDs.split(","); //arr1是什么, row.abilityIDs是什么???
       console.log(arr1, "arr1"); //["111", "116", "115", "114", "122", "113", "112", "119"]
+      console.log(row.abilityNames,arr2,'row.abilityNames')   //undefined
       arr2 = row.abilityNames.split(",");
       console.log(arr2, "arr2");
       var arr = [];
@@ -681,11 +684,15 @@ export default {
           console.log(res, "创建联系新人");
           if (res.data.code == 10000) {
             that.dialogEditgsVisible = false;
+            that.listInt();
+            
+
           }
         })
         .catch(error => {
           console.log("error");
         });
+            
       this.$axios.post("/oms-basic/emergencyContact!list.json").then(res => {
         console.log(res.data.list, "联系人列表");
         this.tableDatas = res.data.list;
@@ -761,6 +768,9 @@ export default {
         .then(res => {
           //返回的数据
           console.log("res777", res);
+          that.productName = ''
+          that.value = ''
+          that.values = ""
           //自己定义的空数组tableData
           // this.tableData.splice(0, this.tableData.length)
           var arrs = { tenantName: that.productName, abilityIDs: that.value };
