@@ -1,0 +1,107 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "44372125",
+      "name": "展开",
+      "font_class": "daohangzhankai-",
+      "unicode": "e712",
+      "unicode_decimal": 59154
+    },
+    {
+      "icon_id": "44372126",
+      "name": "收起",
+      "font_class": "daohangshouqi-",
+      "unicode": "e713",
+      "unicode_decimal": 59155
+    },
+    {
+      "icon_id": "44318844",
+      "name": "系统监控",
+      "font_class": "xitongjiankong",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "44318845",
+      "name": "日志管理",
+      "font_class": "rizhiguanli",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "44318846",
+      "name": "租户管理",
+      "font_class": "zuhuguanli",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "44318847",
+      "name": "趋势 概况",
+      "font_class": "qushigaikuang",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "44318848",
+      "name": "列表明细",
+      "font_class": "liebiaomingxi",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "44376306",
+      "name": "shanchu",
+      "font_class": "shanchu",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "44376311",
+      "name": "icon-test",
+      "font_class": "icon-test",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "44376457",
+      "name": "查看 ",
+      "font_class": "chakan",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "44376461",
+      "name": "刷新",
+      "font_class": "shuaxin",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "44376601",
+      "name": "下载",
+      "font_class": "xiazai",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "44401361",
+      "name": "shanchu",
+      "font_class": "shanchu1",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "44413403",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    }
+  ]
+}
