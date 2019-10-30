@@ -96,7 +96,7 @@
                 <el-input readonly v-model="editForm.code" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="授权能力">
-                <el-select v-model="form.abilityId" placeholder="请选择" collapse-tags multiple>
+                <el-select v-model="form.abilityId" placeholder="请选择" multiple>
                   <el-option
                     v-for="(o,j) in editForm.arrayAbility"
                     :key="j"
@@ -450,11 +450,11 @@ export default {
      * @param
      */
     editgsForm(index, row) {
+      this.form.abilityId = []
       this.dialogEditgsVisible = true;
       console.log(this.editForm.temArr);
       row.temArr = this.editForm.temArr;
       console.log(row, "row");
-
       (this.title = "编辑"), (this.title1 = "删除");
       this.editForm = row;
       var arr1 = [],
@@ -465,9 +465,12 @@ export default {
       arr2 = row.abilityNames.split(",");
       console.log(arr2, "arr2");
       var arr = [];
-      this.form.abilityId = row.abilityIDs; //arr赋值给editForm.arrayAbility
+      const abiArr = row.abilityIDs.split(",") //arr赋值给editForm.arrayAbility
+      for(let i in abiArr){
+        abiArr[i] = parseInt(abiArr[i])
+      }
+      this.form.abilityId = abiArr
       this.editForm.arrayAbility = this.editForm.temArr;
-      console.log(this.editForm.temArr);
     },
 
     saveEditForm() {
@@ -475,17 +478,14 @@ export default {
       var param = new URLSearchParams();
       param.append("tenantID", this.editForm.tenantID);
       param.append("tenantName", this.editForm.tenantName);
-      param.append("abilityIDs", this.form.abilityId.join(","));
-      console.log(this.form.abilityId);
-      var params1 = {
-        tenantID: this.editForm.tenantID,
-        abilityIDs: this.form.abilityId.join(",")
-      };
-      // var header={
-      //   headers:{
-      //     "Content-Type":"application/x-www-form-urlencoded"
-      //   }
-      // }
+      let abilityId = ''
+      const abilityIdArr = [...new Set(this.form.abilityId)]
+      if (abilityIdArr.length > 0) {
+        abilityId = abilityIdArr.join(",")
+      } else {
+        abilityId = abilityIdArr[0]
+      }
+      param.append("abilityIDs", abilityId)
       this.$axios
         .post("/oms-basic/tenant!editTenant.json", param)
         .then(function(response) {

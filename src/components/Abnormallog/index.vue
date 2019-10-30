@@ -319,7 +319,16 @@ export default {
       this.$axios
         .post("/oms-basic/abilityLog!exportLogMessage.json")
         .then(res => {
-          this.goDownload(res.data.address)
+          const urlb = res.data.address
+          const eleLink = document.createElement('a')
+          eleLink.download = urlb
+          eleLink.style.display = 'none'
+          eleLink.href = urlb
+          // // 触发点击
+          document.body.appendChild(eleLink)
+          eleLink.click()
+          // // 然后移除
+          document.body.removeChild(eleLink)
         });
     },
     goDownload(_url){

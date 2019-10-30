@@ -459,6 +459,12 @@ export default {
   },
   methods: {
     //画圆环
+    clearCanvas(){  
+    var c=document.getElementById("myCanvas");  
+    var cxt=c.getContext("2d");  
+    cxt.clearRect(0,0,c.width,c.height);  
+    },
+
     getCircal(ele,value) {
       let x = value; // 动态变动的进度值
       let ctx = ele.getContext('2d');
@@ -659,16 +665,32 @@ export default {
       this.getComponent(formData);
     },
     //选项卡二的刷新
-    getRefresh2(name) {
-      this.pagination.currentPage = 1;
-      this.getComponent({name,start: 1,pageSize: this.pagination.pageSize},(list)=>{
-        this.tableData2.forEach((item,index)=>{
-          if(item.name = name){
-            this.tableData2[index] = list[0];
-          }
-        })
-      });
+    // getRefresh2(name) {
+    //   this.pagination.currentPage = 1;
+    //   this.getComponent({name,start: 1,pageSize: this.pagination.pageSize},(list)=>{
+    //     this.tableData2.forEach((item,index)=>{
+    //       if(item.name = name){
+    //         this.tableData2[index] = list[0];
+    //       }
+    //     })
+    //   });
+    // },
+    //--------------------------------------
+      //选项卡二的刷新
+      getRefresh2() {
+      this.$axios.post('/oms-basic/softWareInfo!list.json').then(res =>{
+        this.tableData2  = [];
+        setTimeout(() => {
+        this.tableData2 = res.data.list;
+        }, 300);
+        // console.log(this.tableData3,'123456')
+      }).catch(error =>{
+        console.log(error)
+      })
     },
+
+
+
     // getDetail2(this.tab2DetailName,this.searchData);
     //选项卡二的详情
     getDetail2(name,status='') {  //status 传一个默认空字符，没有就是空，有就是你传入的值

@@ -460,13 +460,17 @@ export default {
       this.$axios
         .post("/oms-basic/abilityLog!exportLogMessage.json",this.$qs.stringify(data))
         .then(res => {
-          // console.log(res.data.address, "res123456"); 
-          // window.open(
-          //   `/oms-basic`+res.data.address
-          //   // 192.168.1.203:28082/oms-basic/depository/export/日志信息表(2019-10-25-8f75).xls
-          // );
-        window.location.href = 'http://192.168.1.203:28082'+ res.data.address;
-        // window.open('http://192.168.1.203:28082' + res.data.address)
+          const urlb = res.data.address
+          const eleLink = document.createElement('a')
+          eleLink.download = urlb
+          eleLink.style.display = 'none'
+          eleLink.href = urlb
+          // // 触发点击
+          document.body.appendChild(eleLink)
+          eleLink.click()
+          // // 然后移除
+          document.body.removeChild(eleLink)
+          // window.open('http://192.168.1.203:28082' + res.data.address)
         });
         // this.$axios.post('/oms-basic/abilityLog!exportLogMessage.json',this.$qs.stringify(data)).then( res => {
         //   let tForm=document.createElement('form');
