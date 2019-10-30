@@ -191,7 +191,7 @@
                   </el-form>
 
                   <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogEditgsVisible = false">取 消</el-button>
+                    <el-button @click="quXiao()">取 消</el-button>
                     <el-button type="primary" @click="saveEditForm()">确 定</el-button>
                   </div>
                 </el-dialog>
@@ -512,6 +512,11 @@ export default {
         }
       }
     },
+    //联系人编辑（需要刷新）
+    quXiao(){
+      this.dialogEditgsVisible = false
+      this.getData()
+    },
     //联系人搜索
     doFilter() {
       this.filtertableData = []; //过滤后的数据
@@ -681,6 +686,7 @@ export default {
           console.log(res, "创建联系新人");
           if (res.data.code == 10000) {
             that.dialogEditgsVisible = false;
+            this.getData()
           }
         })
         .catch(error => {
