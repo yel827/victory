@@ -58,7 +58,7 @@
       <el-table-column prop="tenantName" label="租户名" width="180"></el-table-column>
       <el-table-column prop="level" label="日志等级"></el-table-column>
       <el-table-column prop="source" show-overflow-tooltip label="来源URL"></el-table-column>
-      <el-table-column prop="createTime" label="调用时长"></el-table-column>
+      <el-table-column prop="createTime" label="调用时间"></el-table-column>
       <el-table-column prop="logType" label="日志类型"></el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="msg" label="日志内容" width="300px"></el-table-column>
       <!-- 造作column -->
@@ -94,11 +94,11 @@
           <div class="msgBox">{{detailForm.level}}</div>
         </li>
         <li>
-          <div class="bg_cyan">来源IP</div>
+          <div class="bg_cyan">来源URL</div>
           <div class="msgBox">{{detailForm.source}}</div>
         </li>
         <li>
-          <div class="bg_cyan">调用时长</div>
+          <div class="bg_cyan">调用时间</div>
           <div class="msgBox">{{detailForm.updateTime}}</div>
         </li>
         <li style="border-bottom: 1px solid #000;">

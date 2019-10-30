@@ -90,7 +90,6 @@
 </template>
 
  <script>
-import bus from "../js/bus.js";
 export default {
   data() {
     return {
@@ -129,6 +128,7 @@ export default {
         resource: "",
         desc: ""
       },
+      getData1:'',
       title: "",
       souma:'',
       title1: "",
@@ -183,7 +183,7 @@ export default {
         start: currentPage,
         pageSize: this.pagination.pageSize,
         // ...this.formData
-        code:this.tableDataValue
+        code:this.getData1
       });
     },
     deleteRow1(index) {
@@ -218,18 +218,7 @@ export default {
         loadUrl:this.editForm.loadUrl,
         maxNum:parseInt(this.editForm.maxNum),
       };
-      // var header={
-      //   headers:{
-      //     "Content-Type":"application/x-www-form-urlencoded"
-      //   }
-      // }
 
-
-      /*
-      *
-      *提交成功页面数据无法改变
-      * 
-      * */
       this.$axios
         .post("/oms-basic/ability!editTenantAbility.json", this.$qs.stringify(params1))
         .then(res=>{
@@ -241,70 +230,58 @@ export default {
           console.log(error);
         });
     },
+
+    //
+    sou_suo() {
+      var that = this
+      that.getData1=localStorage.getItem("key");
+      console.log(that.getData1,"手动接收的数据")
+      that.filtertableData = []; //过滤后的数据
+      var IDcode = {
+        code: that.getData1,
+        start:1,
+        pageSize:that.pagination.pageSize
+      };
+      that.listInt(IDcode);
+     
+    },
     //搜索
     doFilter() {
       var that = this
-      this.filtertableData = []; //过滤后的数据
-      this.tableDataValue
-      console.log(this.tableDataValue,"sssssssssssssssss")
+      that.getData1=localStorage.getItem("key");
+      console.log(that.getData1,"手动接收的数据")
+      that.filtertableData = []; //过滤后的数据
+      that.tableDataValue
+      console.log(that.tableDataValue,"sssssssssssssssss")
       var IDcode = {
-        code: this.tableDataValue,
+        code: that.tableDataValue,
         start:1,
-        pageSize:this.pagination.pageSize
+        pageSize:that.pagination.pageSize
       };
-      this.listInt(IDcode);
-      // this.$axios.post(
-      //     "/oms-basic/ability!selectByCode.json",
-      //     this.$qs.stringify(IDcode)
-      //   )
-      //   .then(res => {
-      //     console.log(res.data.data);
-      //     var subjectY = res.data.data;
-      //     this.tableData = subjectY;
-      //     that.total = res.data.count;
-
-      //     console.log(this.filtertableData, "12");
-      //     console.log(this.tableData, "ssss");
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // //页面数据改变重新统计数据数量和当前页
-      // this.currentPage = 1;
-      // this.totalItems = this.filtertableData.length;
-      // //渲染表格,根据值
-      // this.currentChangePage(this.filtertableData);
-      // //页面初始化数据需要判断是否检索过
-      // this.flag = true;
+      that.listInt(IDcode);
+     
     },
     listInt(arr){
-      this.$axios.post("/oms-basic/ability!selectByCode.json",
-        this.$qs.stringify(arr)
+      var that = this
+      that.$axios.post("/oms-basic/ability!selectByCode.json",
+        that.$qs.stringify(arr)
       ).then(res => {
       // this.tableData = res.data.data;
       console.log(res);
-      this.tableData = [].concat(res.data.data);
-      this.pagination.total = res.data.count;
-      // console.log(this.tableData, "this.tableData");
+      that.tableData = [].concat(res.data.data);
+      that.pagination.total = res.data.count;
     });
     },
-   
-  },
-  created() {
-    bus.$on("kala", function(val) {
-      console.log(val,"前面页面传递的数据");
-      this.souma = val
-    });
   },
   mounted() {
     //调取能力值库 this.editForm.arrayAbility=res;
     //发送ajax请求获取数据
-
+    
     this.listInt({
       start:this.pagination.start,
       pageSize:this.pagination.pageSize
     })
-    
+    this.sou_suo()
   }
 };
 </script>

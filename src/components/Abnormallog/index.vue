@@ -17,8 +17,8 @@
           ></el-option>
         </el-select>
 
-        <el-form-item label="来源IP" class="right">
-          <el-input v-model="formInline.name" placeholder="来源IP"  clearable></el-input>
+        <el-form-item label="来源URL" class="right">
+          <el-input v-model="formInline.name" placeholder="来源URL"  clearable></el-input>
         </el-form-item>
         <span class="demonstration">时间选择</span>
         <el-date-picker
@@ -78,11 +78,11 @@
           <div class="msgBox">{{detailForm.level}}</div>
         </li>
         <li>
-          <div class="bg_cyan">来源IP</div>
+          <div class="bg_cyan">来源URL</div>
           <div class="msgBox">{{detailForm.source}}</div>
         </li>
         <li>
-          <div class="bg_cyan">调用时长</div>
+          <div class="bg_cyan">调用时间</div>
           <div class="msgBox">{{detailForm.updateTime}}</div>
         </li>
         <li style="border-bottom: 1px solid #000;">
@@ -192,8 +192,8 @@ export default {
         { label: "日志ID", prop: "logID" },
         { label: "租户名", prop: "tenantName" },
         { label: "日志等级", prop: "level" },
-        { label: "来源IP", prop: "source" },
-        { label: "调用时间", prop: "responseTime" },
+        { label: "来源URL", prop: "source" },
+        { label: "调用时间", prop: "createTime" },
         { label: "日志类型", prop: "logType" },
         { label: "日志内容", prop: "msg" }
       ]

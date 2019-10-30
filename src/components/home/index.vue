@@ -155,7 +155,6 @@
 </template>
 
  <script>
-import bus from "../js/bus.js";
 export default {
   data() {
     return {
@@ -438,7 +437,7 @@ export default {
     },
     edit(index) {
       this.$router.push("/Administration");
-      bus.$emit("kala", index.code);
+      localStorage.setItem("key",index.code);
     },
     /**
      *
