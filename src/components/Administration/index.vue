@@ -234,6 +234,8 @@ export default {
     //
     sou_suo() {
       var that = this
+       that.getData1=localStorage.getItem("key");
+      console.log(that.getData1,"手动接收的数据")
       that.getData1=localStorage.getItem("key");
       console.log(that.getData1,"手动接收的数据")
       that.filtertableData = []; //过滤后的数据
@@ -248,8 +250,7 @@ export default {
     //搜索
     doFilter() {
       var that = this
-      that.getData1=localStorage.getItem("key");
-      console.log(that.getData1,"手动接收的数据")
+     
       that.filtertableData = []; //过滤后的数据
       that.tableDataValue
       console.log(that.tableDataValue,"sssssssssssssssss")

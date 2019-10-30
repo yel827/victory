@@ -76,7 +76,7 @@
                 <div>
                   <i
                     class="el-icon-success"
-                    :class='scope.row.strategy === 2  ? "undealed" : scope.row.strategy === 0?"dealed":"undealed"'
+                    :class='scope.row.strategy == 2  ? "undealed" : (scope.row.strategy == 0 ? "dealed" : "undealed")'
                     @click="on_(scope.row,scope.$index)"
                     style="font-size:18px;"
                   >
@@ -84,7 +84,7 @@
                   </i>
                   <i
                     class="el-icon-success"
-                    :class='scope.row.strategy === 2  ? "undealed" : scope.row.strategy === 1?"dealed":"undealed"'
+                    :class='scope.row.strategy == 2  ? "undealed" : (scope.row.strategy == 1 ? "dealed" : "undealed")'
                     @click="off_(scope.row,scope.$index)"
                     style="font-size:18px;"
                   >
@@ -150,7 +150,7 @@
             </el-form>
           </div>
           <el-table
-            :data="tableDatas"
+            :data="tableDatas.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             style="width: 100%;"
             class="tabP"
           >
@@ -192,7 +192,7 @@
 
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogEditgsVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEditForm">确 定</el-button>
+                    <el-button type="primary" @click="saveEditForm()">确 定</el-button>
                   </div>
                 </el-dialog>
                 <!-- 删除 -->
@@ -305,8 +305,7 @@ export default {
         name: "",
         sort: 99,
         arrayAbility: [],
-        temArr: [],
-        
+        temArr: []
       },
       title: "",
       title1: "",
@@ -634,11 +633,10 @@ export default {
     editgsForm(index, row) {
       let updatas = {
         name: this.editForm.name,
-        email: this.editForm.email,
-        phone: this.editForm.phone
+        email: this.editForm.email
       };
       this.dialogEditgsVisible = true;
-      console.log(this.editForm.temArr,'this.dialogEditgsVisible');
+      console.log(this.editForm.temArr);
       row.temArr = this.editForm.temArr;
       console.log(row, "row");
       this.title = "编辑";
@@ -648,7 +646,6 @@ export default {
       console.log(row.abilityIDs, "row.abilityIDs"); //111,116,115,114,122,113,112,119 row.abilityIDs
       //arr1 = row.abilityIDs.split(","); //arr1是什么, row.abilityIDs是什么???
       console.log(arr1, "arr1"); //["111", "116", "115", "114", "122", "113", "112", "119"]
-      console.log(row.abilityNames,arr2,'row.abilityNames')   //undefined
       arr2 = row.abilityNames.split(",");
       console.log(arr2, "arr2");
       var arr = [];
@@ -684,15 +681,11 @@ export default {
           console.log(res, "创建联系新人");
           if (res.data.code == 10000) {
             that.dialogEditgsVisible = false;
-            that.listInt();
-            
-
           }
         })
         .catch(error => {
           console.log("error");
         });
-            
       this.$axios.post("/oms-basic/emergencyContact!list.json").then(res => {
         console.log(res.data.list, "联系人列表");
         this.tableDatas = res.data.list;
@@ -768,9 +761,6 @@ export default {
         .then(res => {
           //返回的数据
           console.log("res777", res);
-          that.productName = ''
-          that.value = ''
-          that.values = ""
           //自己定义的空数组tableData
           // this.tableData.splice(0, this.tableData.length)
           var arrs = { tenantName: that.productName, abilityIDs: that.value };
@@ -789,10 +779,10 @@ export default {
         });
     }, //忽略的接口
     on_(obj, i) {
-      console.log(obj.strategy,"159357");
+      
       var intMyData1 = {
         id: obj.id,
-        strategy:obj.strategy
+        strategy:1
       };
       this.$axios
         .post(
@@ -800,16 +790,15 @@ export default {
           this.$qs.stringify(intMyData1)
         )
         .then(res => {
-          console.log(res, "忽略1");
-          this.tableData[i].warnStatus = "已处理";
-          this.tableData[i].strategy = !obj.strategy;
+          this.tableData[i].strategy = !1;
         });
     }, //已处理的接口
     off_(obj, i) {
+      
       console.log(obj);
       var intMyData2 = {
         id: obj.id,
-        strategy:obj.strategy
+        strategy:0
       };
       console.log(obj.strategy, "obj.strategy");
       console.log(intMyData2, "sss");
@@ -818,10 +807,8 @@ export default {
           "/oms-basic/warnInfoRelate!updateStatusById.json",
           this.$qs.stringify(intMyData2)
         )
-        .then(res => {
-          console.log(res, "忽略2");
-          this.tableData[i].warnStatus = "已忽略";
-          this.tableData[i].strategy = !obj.strategy;
+        .then(res => {    
+          this.tableData[i].strategy = !0;
         });
     },
     changFun(val) {

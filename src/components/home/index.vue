@@ -298,6 +298,11 @@ export default {
           var arrs = { tenantName: that.ruleForm.name, abilityIDs: paramso };
           that.tableData.splice(that.tableData.length, 0, arrs);
           //发送ajax请求获取数据
+          if(res.data.code === "11111"){
+            alert(res.data.msg)
+          }else if(res.data.code === "10000"){
+            alert(res.data.msg)
+          }
 
           this.$axios
             .post("/oms-basic/tenant!selectTenantBy.json", {
@@ -311,11 +316,10 @@ export default {
               this.ruleForm.region = ""
               // console.log(this.tableData, "this.tableData");
             });
-           
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('添加成功!');
-          }
+            this.$refs[formName].validate((valid) => {
+              if (valid) {
+               
+              }
         });
       
         })
