@@ -307,6 +307,8 @@ export default {
             .then(res => {
               // this.tableData = res.data.data;
               this.tableData = [].concat(res.data.data);
+              that.ruleForm.name = '';
+              this.ruleForm.region = ""
               // console.log(this.tableData, "this.tableData");
             });
            

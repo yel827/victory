@@ -255,7 +255,7 @@
           @current-change="handleCurrentChange"
           :current-page.sync="pagination.currentPage"
           :page-size="pagination.pageSize"
-          layout="total, prev, pager, next"
+          layout="total,pager"
           :total="total"
         ></el-pagination>
       </div>
@@ -753,7 +753,7 @@ export default {
         };break;
         case 'third':{
           this.$nextTick(()=>{
-            this.getComponent({start: currentPage,pageSize: this.pagination.pageSize});
+            this.getAbility({start: currentPage,pageSize: this.pagination.pageSize});
           });
         };break;
       }
