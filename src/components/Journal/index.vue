@@ -53,7 +53,7 @@
       <i class="el-icon-pie-chart" id="bd"></i> 列表明细
     </div>
     <!-- table布局 -->
-    <el-table :data="tableData">
+    <el-table :data="tableData" id="out-table">
       <el-table-column prop="logID" label="日志ID" width="180"></el-table-column>
       <el-table-column prop="tenantName" label="租户名" width="180"></el-table-column>
       <el-table-column prop="level" label="日志等级"></el-table-column>
@@ -111,6 +111,7 @@
 </template> 
 
  <script>
+ import XLSX from 'xlsx'
 import echarts from "echarts";
 export default {
   data() {
@@ -212,6 +213,7 @@ export default {
       start: this.pagination.start,
       pageSize: this.pagination.pageSize
     }); // 日志搜索 日志明细接口
+  
   },
   methods: {
     // 生成调用概况柱状图
@@ -439,39 +441,65 @@ export default {
         selectTime: []
       };
     },
+    onexport: function(evt) {
+      var wb = XLSX.utils.table_to_book(document.getElementById('out-table'));
+      var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+      saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream'}),evt+"日志列表.xlsx");
+    },
+
+    s2ab: function(s) {
+      if(typeof ArrayBuffer != 'undefined') {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+      }  
+      else {
+      var buf = new Array(s.length);
+      for (var i=0; i!=s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+      }
+    },
     // 导出接口
     exportCurrent() {
-      let data = {};
-      console.log(this.formData)
       if(this.formData.tenantName){
-       data.tenantName = this.formData.tenantName;
-       console.log(data.tenantName,'data.tenantName')
-      };
-      if(this.formData.level){
-        data.level = this.formData.level;
-      };
-      if(this.formData.source){
-        data.source = this.formData.source;
-      };
-      if(this.formData.selectTime.length){
-        data.startTime = this.dateTransfer(this.formData.selectTime[0]);
-        data.endTime = this.dateTransfer(this.formData.selectTime[1]);
-      };
-      this.$axios
-        .post("/oms-basic/abilityLog!exportLogMessage.json",this.$qs.stringify(data))
-        .then(res => {
-          const urlb = res.data.address
-          const eleLink = document.createElement('a')
-          eleLink.download = urlb
-          eleLink.style.display = 'none'
-          eleLink.href = urlb
-          // // 触发点击
-          document.body.appendChild(eleLink)
-          eleLink.click()
-          // // 然后移除
-          document.body.removeChild(eleLink)
-          // window.open('http://192.168.1.203:28082' + res.data.address)
-        });
+        this.onexport(this.formData.tenantName+'第一页')
+      }else{
+        this.onexport('第一页')
+      }
+      // 
+      // let data = {};
+      // console.log(this.formData)
+      // if(this.formData.tenantName){
+      //  data.tenantName = this.formData.tenantName;
+      //  console.log(data.tenantName,'data.tenantName')
+      // };
+      // if(this.formData.level){
+      //   data.level = this.formData.level;
+      // };
+      // if(this.formData.source){
+      //   data.source = this.formData.source;
+      // };
+      // if(this.formData.selectTime.length){
+      //   data.startTime = this.dateTransfer(this.formData.selectTime[0]);
+      //   data.endTime = this.dateTransfer(this.formData.selectTime[1]);
+      // };
+      // this.$axios
+      //   .post("/oms-basic/abilityLog!exportLogMessage.json",this.$qs.stringify(data))
+      //   .then(res => {
+      //     const urlb = window.location.host+res.data.address
+          
+      //     const eleLink = document.createElement('a')
+      //     eleLink.download = urlb
+      //     eleLink.style.display = 'none'
+      //     eleLink.href = urlb
+      //     // // 触发点击
+      //     document.body.appendChild(eleLink)
+      //     eleLink.click()
+      //     // // 然后移除
+      //     document.body.removeChild(eleLink)
+      //     // window.open('http://192.168.1.203:28082' + res.data.address)
+      //   });
         // this.$axios.post('/oms-basic/abilityLog!exportLogMessage.json',this.$qs.stringify(data)).then( res => {
         //   let tForm=document.createElement('form');
         //   tForm.setAttribute('style','display:none');

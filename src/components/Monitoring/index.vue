@@ -114,7 +114,7 @@
             <el-table-column prop="name" label="组件名称" width="180"></el-table-column>
             <el-table-column prop="totalComponents" label="组件数量"></el-table-column>
             <el-table-column prop="normalTotalComponents" label="正常组件数量"></el-table-column>
-            <el-table-column prop="alarmTotalComponents" label="告警组件数量"></el-table-column>
+            <el-table-column prop="alarmTotalComponents" label="异常状态数量"></el-table-column>
             <el-table-column prop="updateTime" label="更新时间"></el-table-column>
             <!-- 组件监控操作详情 -->
             <el-table-column label="操作">  

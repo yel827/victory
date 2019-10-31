@@ -13,7 +13,8 @@ import Axios from 'axios';
 Vue.prototype.$axios = Axios;
 import qs from 'qs'
 Vue.prototype.$qs = qs
-
+// import Blob from './excel/Blob';
+// import Export2Excel from './excel/Export2Excel.js';
 import './assets/icon/iconfont.css'
 //echarts图表
 import echarts from "echarts"

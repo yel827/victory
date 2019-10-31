@@ -352,7 +352,7 @@ export default {
         },
         {
           value: "2",
-          label: "服务监控"
+          label: "能力监控"
         }
       ],
       
@@ -788,7 +788,7 @@ export default {
       
       var intMyData1 = {
         id: obj.id,
-        strategy:1
+        strategy:0
       };
       this.$axios
         .post(
@@ -796,7 +796,8 @@ export default {
           this.$qs.stringify(intMyData1)
         )
         .then(res => {
-          this.tableData[i].strategy = !1;
+          this.tableData[i].strategy = !0;
+          this.listInt()
         });
     }, //已处理的接口
     off_(obj, i) {
@@ -804,7 +805,7 @@ export default {
       console.log(obj);
       var intMyData2 = {
         id: obj.id,
-        strategy:0
+        strategy:1
       };
       console.log(obj.strategy, "obj.strategy");
       console.log(intMyData2, "sss");
@@ -814,7 +815,8 @@ export default {
           this.$qs.stringify(intMyData2)
         )
         .then(res => {    
-          this.tableData[i].strategy = !0;
+          this.tableData[i].strategy = !1;
+          this.listInt()
         });
     },
     changFun(val) {

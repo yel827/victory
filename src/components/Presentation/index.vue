@@ -170,10 +170,6 @@ export default {
         {
           value: "选项3",
           label: "服务"
-        },
-        {
-          value: "选项4",
-          label: "全部"
         }
       ],
       value: "",
@@ -196,9 +192,7 @@ export default {
   methods: {
     //数据展示
     getss(arr) {
-       if(arr.typeName == "全部"){
-            arr.typeName = ''
-          }
+       
         this.$axios
         .post("/oms-basic/report!list.json", this.$qs.stringify(arr))
         .then(res => {

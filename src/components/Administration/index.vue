@@ -282,7 +282,13 @@ export default {
       start:this.pagination.start,
       pageSize:this.pagination.pageSize
     })
-    this.sou_suo()
+    if(localStorage.getItem("key")){
+      this.sou_suo()
+   }
+    
+  },
+  beforeDestroy(){
+    localStorage.removeItem("key");
   }
 };
 </script>

@@ -42,6 +42,7 @@
       :data="tableData"
       style="width: 100%;"
       class="tabP"
+      id="out-table"
     >
       <template v-for="(item, index) in tableLabel">
         <el-table-column show-overflow-tooltip :key="index" :prop="item.prop" :label="item.label" width></el-table-column>
@@ -287,10 +288,6 @@ export default {
         params.endTime=this.dateTransfer(this.value2[1])
       }
       this.listInt(params);
-
-
-
-
     },
     deleteRow1(index) {
       this.tableData.forEach((item, index) => {});
@@ -315,21 +312,45 @@ export default {
           // console.log(res, ".data.data");
         });
     },
+    onexport: function(evt) {
+      var wb = XLSX.utils.table_to_book(document.getElementById('out-table'));
+      var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+      saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream'}),evt+"日志列表.xlsx");
+    },
+
+    s2ab: function(s) {
+      if(typeof ArrayBuffer != 'undefined') {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+      }  
+      else {
+      var buf = new Array(s.length);
+      for (var i=0; i!=s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+      }
+    },
     dao() {
-      this.$axios
-        .post("/oms-basic/abilityLog!exportLogMessage.json")
-        .then(res => {
-          const urlb = res.data.address
-          const eleLink = document.createElement('a')
-          eleLink.download = urlb
-          eleLink.style.display = 'none'
-          eleLink.href = urlb
-          // // 触发点击
-          document.body.appendChild(eleLink)
-          eleLink.click()
-          // // 然后移除
-          document.body.removeChild(eleLink)
-        });
+      if(this.formInline.same){
+        this.onexport(this.formInline.same+'第一页')
+      }else{
+        this.onexport('第一页')
+      }
+      // this.$axios
+      //   .post("/oms-basic/abilityLog!exportLogMessage.json")
+      //   .then(res => {
+      //     const urlb = window.location.host+res.data.address
+      //     const eleLink = document.createElement('a')
+      //     eleLink.download = urlb
+      //     eleLink.style.display = 'none'
+      //     eleLink.href = urlb
+      //     // // 触发点击
+      //     document.body.appendChild(eleLink)
+      //     eleLink.click()
+      //     // // 然后移除
+      //     document.body.removeChild(eleLink)
+      //   });
     },
     goDownload(_url){
       window.location.href="http://192.168.1.203:28082"+_url

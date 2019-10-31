@@ -23,7 +23,7 @@
         <el-submenu index="2" style="background:#3584f3;">
           <template slot="title">
             <i class="icon iconfont icon-rizhiguanli" style="color:#fff; font-size:16px;"></i>
-            <span slot="title" class="bg" style="color:#fff;">日志管理</span>
+            <span slot="title" class="bg" style="color:#fff;">运营分析</span>
           </template>
           <el-menu-item-group>
             <router-link to="/Journal"><el-menu-item index="2-1">日志列表</el-menu-item></router-link> 
