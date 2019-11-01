@@ -202,6 +202,12 @@ a{
     color:red;
   }
 }
-
+/deep/.el-submenu {
+  .is-active{
+    background: #336ACC;
+    border-left:2px solid #f4f3f3;
+    box-sizing: border-box;
+  }
+}
 
 </style>

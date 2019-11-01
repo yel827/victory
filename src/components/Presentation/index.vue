@@ -40,7 +40,6 @@
           <!-- 0 -->
           <el-dialog title="提示" :visible.sync="dialogVisible" class="onace" width="30%">
             <el-row>
-              
               <span class="demonstration">资源类型</span>
               <el-select
                 v-model="edfrom_.name"
@@ -59,11 +58,25 @@
             </el-row>
             <el-row>
               报告开始时间
-              <el-date-picker v-model="edfrom_.createtime" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker
+                class="datepicker"
+                v-model="edfrom_.createtime"
+                :picker-options="start_date"
+                value-format="timestamp"
+                type="date"
+                placeholder="选择日期"
+              ></el-date-picker>
             </el-row>
             <el-row style="margin-top:20px;">
               报告结束时间
-              <el-date-picker v-model="edfrom_.endtime" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker
+                class="datepicker"
+                v-model="edfrom_.endtime"
+                :picker-options="end_date"
+                value-format="timestamp"
+                type="date"
+                placeholder="选择日期"
+              ></el-date-picker>
             </el-row>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
@@ -106,6 +119,27 @@
 export default {
   data() {
     return {
+      start_date: {
+        //开始时间范围限定
+        disabledDate: time => {
+          if (this.edfrom_.createtime) {
+            return (
+              time.getTime() < Date.now() - 8.64e7 ||
+              time.getTime() >= this.edfrom_.endtime
+            );
+          }
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
+      end_date: {
+        //结束时间范围限定
+        disabledDate: time => {
+          return (
+            time.getTime() <= Date.now() - 8.64e6 ||
+            time.getTime() <= this.edfrom_.createtime
+          );
+        }
+      },
       formData: {
         typeName: "",
         ststus: "",
@@ -190,20 +224,23 @@ export default {
     };
   },
   methods: {
+    disabledDate() {
+      if (Date.now() <= this.edfrom_.createtime) {
+        return true;
+      }
+      return false;
+    },
     //数据展示
     getss(arr) {
-       
-        this.$axios
+      this.$axios
         .post("/oms-basic/report!list.json", this.$qs.stringify(arr))
         .then(res => {
-         
           console.log(res.data.list, "返回的数据");
           res.data.list.forEach((item, index) => {
             res.data.list[index].status = item.status === 0 ? "成功" : "失败";
           });
           this.tableData = res.data.list;
           this.pagination.total = res.data.count;
-          
         });
     },
     //////
@@ -253,8 +290,13 @@ export default {
         status: this.formData.status
       };
       if (this.formData.selectTime.length) {
-        params.reportStartTime = this.dateTransfer(this.formData.selectTime[0]),
-        params.reportEndTime = this.dateTransfer(this.formData.selectTime[1])}
+        (params.reportStartTime = this.dateTransfer(
+          this.formData.selectTime[0]
+        )),
+          (params.reportEndTime = this.dateTransfer(
+            this.formData.selectTime[1]
+          ));
+      }
       this.getss(params);
     },
     deleteRow1(index) {
