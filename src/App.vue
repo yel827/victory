@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="wde">
+  <div id="app" ref="wde" height="tableHeight">
     <el-container>
       <el-menu
         default-active="1-4-1"
@@ -81,7 +81,8 @@ export default {
     };
     return {
       tableData: Array(20).fill(item),
-      isCollapse: false
+      isCollapse: false,
+      tableHeight:window.innerHeight
     };
 
   },
@@ -94,7 +95,8 @@ export default {
     }
   },
   created(){
-
+    
+    console.log(this.tableHeight,'当前可视区域的高度')
   }
 };
 </script>
@@ -102,6 +104,9 @@ export default {
   * {
   margin: 0;
   padding: 0;
+}
+html,body{
+  height: calc(100vh);
 }
 a{
   text-decoration: none;
@@ -118,7 +123,7 @@ a{
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
+  min-height: calc(100vh);
 }
 .el_main {
   padding: 0;
@@ -160,7 +165,7 @@ a{
 
 .el-aside {
   color: #fff;
-  height: 968px;
+  height: calc(100vh);
 }
 .el_header {
   background: #fff;

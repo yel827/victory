@@ -2,17 +2,8 @@
   <div class="home">
     <div class="titleQ">日志详情</div>
     <div class="search">
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        
-
-        
-
-        
-       
-        
-      </el-form>
+      <el-form :inline="true" :model="formInline" class="demo-form-inline"></el-form>
     </div>
-    
   </div>
 </template>
 
