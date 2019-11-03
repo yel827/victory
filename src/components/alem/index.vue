@@ -150,7 +150,7 @@
             </el-form>
           </div>
           <el-table
-            :data="tableDatas.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            :data="tableDatas"
             style="width: 100%;"
             class="tabP"
           >
@@ -785,7 +785,6 @@ export default {
         });
     }, //忽略的接口
     on_(obj, i) {
-      
       var intMyData1 = {
         id: obj.id,
         strategy:0
@@ -796,8 +795,8 @@ export default {
           this.$qs.stringify(intMyData1)
         )
         .then(res => {
-          this.tableData[i].strategy = !0;
-          this.listInt()
+          this.tableData[i].strategy = 0;
+          this.tableData[i].warnStatus = '已处理';
         });
     }, //已处理的接口
     off_(obj, i) {
@@ -815,8 +814,9 @@ export default {
           this.$qs.stringify(intMyData2)
         )
         .then(res => {    
-          this.tableData[i].strategy = !1;
-          this.listInt()
+          this.tableData[i].strategy = 1;
+          this.tableData[i].warnStatus = '已忽略';
+          // this.listInt()
         });
     },
     changFun(val) {

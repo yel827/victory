@@ -468,6 +468,7 @@ export default {
     getCircal(ele,value) {
       let x = value; // 动态变动的进度值
       let ctx = ele.getContext('2d');
+      ctx.clearRect(0,0,ele.width,ele.height); 
       // 最外层圆环
       ctx.beginPath();
       ctx.lineWidth = 3; 
