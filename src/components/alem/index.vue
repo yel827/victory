@@ -14,7 +14,7 @@
                     v-for="item in optionss"
                     :key="item.label"
                     :label="item.label"
-                    :value="item.label"
+                    :value="item.value"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -65,11 +65,10 @@
             <el-table-column type="selection" width="65" @selection-change="changFun"></el-table-column>
             <el-table-column prop="id" label="告警ID" width="180"></el-table-column>
             <el-table-column prop="source" label="告警源" width="180"></el-table-column>
-            <el-table-column prop="monitorItem" label="监控项"></el-table-column>
+            <el-table-column prop="monitorItem" label="监控项" show-overflow-tooltip></el-table-column>
             <el-table-column prop="createTime" label="告警时间"></el-table-column>
             <el-table-column prop="warnStatus" label="告警状态"></el-table-column>
-            <el-table-column prop="msg" label="告警信息"></el-table-column>
-
+            <el-table-column prop="msg" label="告警信息" show-overflow-tooltip></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <!-- 操作 -->
@@ -150,7 +149,7 @@
             </el-form>
           </div>
           <el-table
-            :data="tableDatas"
+            :data="tableDatas.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             style="width: 100%;"
             class="tabP"
           >
@@ -226,7 +225,7 @@ export default {
   data() {
     return {
       formData: {
-        warnStatus: "",
+        warnStatus: '',
         source: "",
         name: "",
         monitorItem: "",
@@ -329,8 +328,8 @@ export default {
       tableDataValue: "",
       options: [
         {
-          value: 0, 
-          label: "已处理" 
+          value:0, 
+          label:"已处理" 
         },
         {
           value: 1,
@@ -408,7 +407,7 @@ export default {
         .post("/oms-basic/warnInfoRelate!list.json", this.$qs.stringify(arr))
         .then(res => {
           this.tableData = res.data.list;
-          console.log(this.tableData, "this.tableData");
+          // console.log(this.tableData, "this.tableData");
           for (var i = 0; i < this.tableData.length; i++) {
             if (this.tableData[i].warnStatus == "2") {
               this.tableData[i].warnStatus = "待处理"; //把返回的状态值2转换成待处理
@@ -461,21 +460,26 @@ export default {
         start: 1,
         pageSize: 10
       };
-      // this.pagination = {
-      //   start: 1,
-      //   pageSize: 10,
-      //   total: 0
-      // };
-      // console.log(this.formData.warnStatus)
-
-      if (this.formData.warnStatus) {
-        data.warnStatus = this.options.filter(
-          item => item.value === this.formData.warnStatus
-        )[0].value;
-      }
+      //告警状态(类型)
+      // if (/[0|1|2]/.test(this.formData.warnStatus)) {
+      //   // console.log(this.formData.warnStatus,'snksdnfdfi----Czxfzcvn');  //类型
+      //   data.warnStatus = this.options.filter(
+      //     item => {
+      //     item.value === this.formData.warnStatus;
+      //     console.log(item,'item---item');
+      //     },
+      //   )[0].value;
+      //   // data.warnStatus = this.formData.warnStatus;
+      // }
+      if(/[0|1|2]/.test(this.formData.warnStatus)) {
+        data.warnStatus = this.formData.warnStatus;
+      };
+      // console.log(data.warnStatus,'data.warnStatus')  //值
+      //告警源
       if (this.formData.source) {
         data.source = this.formData.source;
       }
+      //监控项 monitorItem
       if (this.formData.monitorItem) {
         data.monitorItem = this.formData.monitorItem;
       }
@@ -486,9 +490,10 @@ export default {
         data.startTime = this.dateTransfer_(this.formData.selectTime[0]);
         data.endTime = this.dateTransfer_(this.formData.selectTime[1]);
       }
+      console.log(data,'data---data')
       this.resetPagination();
-      data.start = 0;
-      data.pageSize = 10;
+      // data.start = 0;
+      // data.pageSize = 10;
       this.listInt(data);
     },
     viewdetail(index, row) {
@@ -785,6 +790,7 @@ export default {
         });
     }, //忽略的接口
     on_(obj, i) {
+      
       var intMyData1 = {
         id: obj.id,
         strategy:0
@@ -795,10 +801,11 @@ export default {
           this.$qs.stringify(intMyData1)
         )
         .then(res => {
-          this.tableData[i].strategy = 0;
-          this.tableData[i].warnStatus = '已处理';
+          this.tableData[i].strategy = !0;
+          this.listInt()
         });
-    }, //已处理的接口
+      },
+     //已处理的接口
     off_(obj, i) {
       
       console.log(obj);
@@ -814,9 +821,8 @@ export default {
           this.$qs.stringify(intMyData2)
         )
         .then(res => {    
-          this.tableData[i].strategy = 1;
-          this.tableData[i].warnStatus = '已忽略';
-          // this.listInt()
+          this.tableData[i].strategy = !1;
+          this.listInt()
         });
     },
     changFun(val) {
@@ -880,6 +886,7 @@ export default {
       start: this.pagination2.start,
       pageSize: this.pagination2.pageSize
     });
+    //执行告警列表。。。
     this.listInt({
       start: this.pagination.start,
       pageSize: this.pagination.pageSize
@@ -890,6 +897,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+.el-tooltip__popper {
+  max-width: 200px !important;
+}
+</style>
 <style scoped lang="less">
 .mHome {
   height: 870px;
@@ -942,9 +954,16 @@ export default {
   color: #fff;
 }
 .block {
-  position: fixed;
-  left: 37%;
-  top: 915px;
+  // position: fixed;
+  // margin: 0 auto;
+  width:100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  // position: relative;
+  // bottom: 0;
+  // left: 37%;
+  // top: 915px;
 }
 
 .onace {

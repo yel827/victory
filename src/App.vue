@@ -4,10 +4,10 @@
       <el-menu
         default-active="1-4-1"
         class="el-menu-vertical-demo"
-        style="background:#3584f3;"
         @open="handleOpen"
         @close="handleClose"
         :collapse="isCollapse"
+        active-text-color="#fff"       
       >
         <div class="header_title">能力开发系统管理</div>
         <el-submenu index="1" style="background:#3584f3;">
@@ -30,6 +30,7 @@
             <router-link to="/Abnormallog"><el-menu-item index="2-2">异常日志列表</el-menu-item></router-link> 
           </el-menu-item-group>
         </el-submenu>
+
         <el-submenu index="3" style="background:#3584f3;">
           <template slot="title">
             <i class="icon iconfont icon-xitongjiankong" style="color:#fff; font-size:16px;"></i>
@@ -39,6 +40,17 @@
             <router-link to="/Monitoring"><el-menu-item index="3-1">监控管理</el-menu-item></router-link>
            <router-link to="/alem"><el-menu-item index="3-2">告警管理</el-menu-item></router-link> 
            <router-link to="/Presentation"><el-menu-item index="3-3">监控报告</el-menu-item></router-link> 
+          </el-menu-item-group>
+        </el-submenu>
+        <!-- 能力注册 -->
+        <el-submenu index="4" style="background:#3584f3;">
+          <template slot="title">
+            <i class="icon iconfont icon-xitongjiankong" style="color:#fff; font-size:16px;"></i>
+            <span slot="title" style="color:#fff;">能力注册</span>
+          </template>
+          <el-menu-item-group>
+            <router-link to=""><el-menu-item index="4-1">能力管理</el-menu-item></router-link>
+           <router-link to=""><el-menu-item index="4-2">能力地址管理</el-menu-item></router-link> 
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -59,7 +71,7 @@
               <el-dropdown-item>退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>王小虎</span>
+          <span ref="span">王小虎</span>
           <!-- <span>退出</span> -->
         </el-header>
         
@@ -82,7 +94,8 @@ export default {
     return {
       tableData: Array(20).fill(item),
       isCollapse: false,
-      tableHeight:window.innerHeight
+      tableHeight:window.innerHeight,
+      data:""
     };
 
   },
@@ -92,10 +105,22 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    getuserName() {
+      this.$axios.get("/json/json.json")
+      .then(res=>{
+        if(code === 10000) {
+          this.$refs.span.innerHTML = res.data.data.username
+        }
+        // console.log(res,'res---res---本地死数据json')
+      })
     }
   },
+  mounted() {
+     this.getuserName()
+  },
   created(){
-    
+   
     console.log(this.tableHeight,'当前可视区域的高度')
   }
 };
@@ -209,10 +234,12 @@ a{
 }
 /deep/.el-submenu {
   .is-active{
-    background: #336ACC;
-    border-left:2px solid #f4f3f3;
+    background: #3584f3;
+    border-left:5px solid #f4f3f3;
     box-sizing: border-box;
   }
 }
-
+// /deep/.router-link-active{
+//   background: #000;
+// }
 </style>

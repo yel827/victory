@@ -367,6 +367,7 @@ export default {
         typeName: this.edfrom_.name
       };
       console.log(dataList);
+      //生成报告接口。。。
       this.$axios
         .post(
           "/oms-basic/report!createReportExcel.json",

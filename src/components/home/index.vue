@@ -141,7 +141,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <div class="block">
       <el-pagination
         @current-change="handleCurrentChange"
@@ -151,6 +150,8 @@
         :total="pagination.total"
       ></el-pagination>
     </div>
+    <!-- 导航 -->
+    
   </div>
 </template>
 
@@ -256,6 +257,13 @@ export default {
     };
   },
   methods: {
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+
     //能力下拉
     getster() {
       this.$axios
@@ -389,14 +397,10 @@ export default {
         code: this.tableDataValue
       };
       this.$axios
-        .post(
-          "/oms-basic/tenant!selectTenantBy.json",
-          this.$qs.stringify(IDcode)
-        )
+        .post("/oms-basic/tenant!selectTenantBy.json",this.$qs.stringify(IDcode))
         .then(res => {
-          console.log(res.data.data);
-          var subjectY = res.data.data;
-          this.tableData = subjectY;
+          // console.log(res.data.data);
+          this.tableData = res.data.data;
           that.pagination.total = res.data.count;
         })
         .catch(error => {
@@ -527,6 +531,7 @@ export default {
           console.log("error");
         });
     },
+    //租户列表table数据请求
     listInit(arr) {
       this.$axios
         .post("/oms-basic/tenant!selectTenantBy.json", this.$qs.stringify(arr))
