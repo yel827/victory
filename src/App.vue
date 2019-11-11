@@ -37,7 +37,7 @@
             <span slot="title" style="color:#fff;">系统监控</span>
           </template>
           <el-menu-item-group>
-            <router-link to="/Monitoring"><el-menu-item index="3-1">监控管理</el-menu-item></router-link>
+           <router-link to="/Monitoring"><el-menu-item index="3-1">监控管理</el-menu-item></router-link>
            <router-link to="/alem"><el-menu-item index="3-2">告警管理</el-menu-item></router-link> 
            <router-link to="/Presentation"><el-menu-item index="3-3">监控报告</el-menu-item></router-link> 
           </el-menu-item-group>
@@ -49,8 +49,8 @@
             <span slot="title" style="color:#fff;">能力注册</span>
           </template>
           <el-menu-item-group>
-            <router-link to=""><el-menu-item index="4-1">能力管理</el-menu-item></router-link>
-           <router-link to=""><el-menu-item index="4-2">能力地址管理</el-menu-item></router-link> 
+            <router-link to="/capmanage"><el-menu-item index="4-1">能力管理</el-menu-item></router-link>
+            <router-link to="/capaddress"><el-menu-item index="4-2">能力地址管理</el-menu-item></router-link> 
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -106,18 +106,18 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    getuserName() {
-      this.$axios.get("/json/json.json")
-      .then(res=>{
-        if(code === 10000) {
-          this.$refs.span.innerHTML = res.data.data.username
-        }
-        // console.log(res,'res---res---本地死数据json')
-      })
-    }
+    // getuserName() {
+    //   this.$axios.get("/json/json.json")
+    //   .then(res=>{
+    //     if(code === 10000) {
+    //       this.$refs.span.innerHTML = res.data.data.username
+    //     }
+    //     // console.log(res,'res---res---本地死数据json')
+    //   })
+    // }
   },
   mounted() {
-     this.getuserName()
+    //  this.getuserName()
   },
   created(){
    

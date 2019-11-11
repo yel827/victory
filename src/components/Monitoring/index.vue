@@ -15,6 +15,11 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSubmit" class="right">搜索</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" class="right" style="background:#fff;color:#000">+ 添加主机</el-button>
+              </el-form-item>
+              <el-form-item>
                 <span class="icon_tu">
                   <span style="margin-right:20px;">
                     <i
@@ -103,6 +108,9 @@
               <el-form-item>
                 <el-button type="primary" @click="onSubmit2" class="right">搜索</el-button>
               </el-form-item>
+              <el-form-item>
+                <el-button type="primary" class="right" style="background:#fff;color:#000">+ 添加组件</el-button>
+              </el-form-item>
             </el-form>
           </div>
           <el-table
@@ -142,6 +150,7 @@
                 ></el-option>
               </el-select>
               <el-button type="primary" class="right" @click="detail2Search()">搜索</el-button>
+              <el-button type="primary" class="right" style="background:#fff;color:#3285f2">刷新</el-button>
               <el-table :data="gridData">
                 <el-table-column property="hostIp" label="组件IP" width="100"></el-table-column>
                 <el-table-column property="port" label="组件端口" width="100"></el-table-column>
@@ -156,7 +165,8 @@
                 <el-table-column property="componentRatio" label="组件可用比" width="100"></el-table-column>
                 <el-table-column property="updateTime" label="更新时间" width="100"></el-table-column>
                 <el-table-column  label="操作" width="100">
-                  <el-button type="text">刷新</el-button>
+                  <el-button type="text">修改</el-button>
+                  <el-button type="text" style="color:#f1a351">删除</el-button>
                 </el-table-column>
               </el-table>
             </el-dialog>
@@ -193,6 +203,7 @@
               <el-form-item>
                 <el-button type="primary" @click="onSubmit3" class="right">搜索</el-button>
               </el-form-item>
+              <el-button type="primary" class="right" style="background:#fff;color:#000">+ 添加主机</el-button>
             </el-form>
           </div>
           <!-- table表格布局 -->

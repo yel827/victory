@@ -232,9 +232,6 @@ export default {
         selectTime: []
       },
       tableData_once: [],
-      // gaos:'',
-      // gaos2:'',
-      // gaos3:'',
       radio: "",
       activeName: "first",
       currentPage: 1, //初始页

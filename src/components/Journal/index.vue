@@ -277,18 +277,34 @@ export default {
       this.app.setOption(option); // 使用配置项显示柱状图
     },
     dateTransfer(date) {
+      // console.log(date,'data---data')
       var y = date.getFullYear();
       var m = date.getMonth() + 1;
       m = m < 10 ? "0" + m : m;
       var d = date.getDate();
       d = d < 10 ? "0" + d : d;
       var h = date.getHours();
+      h = h < 10 ? "0" + h : h;
       var minute = date.getMinutes();
       minute = minute < 10 ? "0" + minute : minute;
       return y + "-" + m + "-" + d + " " + "00:00:00";
     },
+    dateTransfer1(date) {
+      // console.log(date,'data---data')
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      m = m < 10 ? "0" + m : m;
+      var d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      var h = date.getHours();
+      h = h < 10 ? "0" + h : h;
+      var minute = date.getMinutes();
+      minute = minute < 10 ? "0" + minute : minute;
+      return y + "-" + m + "-" + d + " " + "23:59:59";
+    },    
     //调用搜索接口
     onSubmit() {
+      // console.log(this.formData.selectTime,'this.formData.selectTime---this.formData.selectTime')
       let formData = {
         start:1,
         pageSize:this.pagination.pageSize
@@ -302,9 +318,10 @@ export default {
       if(this.formData.source) {
         formData.source = this.formData.source
       };
+      console.log(this.formData.selectTime,'hahahha')
       if (this.formData.selectTime != "" && this.formData.selectTime != undefined) {
         formData.startTime = this.dateTransfer(this.formData.selectTime[0]);
-        formData.endTime = this.dateTransfer(this.formData.selectTime[1]);
+        formData.endTime = this.dateTransfer1(this.formData.selectTime[1]);
       };
       this.getJournal(formData);
       this.queryLogCallOverview(formData);
@@ -363,7 +380,7 @@ export default {
 
       if(this.formData.selectTime.length){
         params.startTime=this.dateTransfer(this.formData.selectTime[0])
-        params.endTime=this.dateTransfer(this.formData.selectTime[1])
+        params.endTime=this.dateTransfer1(this.formData.selectTime[1])
       }
       this.getJournal(params);
       // console.log(this.pagination.start)  //点击第几页

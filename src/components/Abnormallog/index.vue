@@ -215,8 +215,8 @@ export default {
     onSubmit() {
       let formData = {
         start:1,
-        pageSize:this.pagination.pageSize
-      
+        pageSize:this.pagination.pageSize,
+        level : 'WARN'
       };
 
       // if (this.formInline.level) {
@@ -228,7 +228,7 @@ export default {
       if (this.formInline.same) {
         formData.tenantName = this.formInline.same;
       }
-      console.log(this.value2, "this.value2");
+      // console.log(this.value2, "this.value2");
 
       if (this.value2 != "" && this.value2 != undefined) {
         formData.startTime = this.dateTransfer(this.value2[0]);
@@ -237,7 +237,7 @@ export default {
       if (this.value) {
         formData.level = 'WARN';
       }
-      console.log(formData, "传递的值");
+      // console.log(formData, "传递的值");
       this.$axios
         .post(
           "/oms-basic/abilityLog!selectLog.json",

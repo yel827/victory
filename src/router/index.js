@@ -9,6 +9,8 @@ import Monitoring from '@/components/Monitoring'
 import alem from '@/components/alem'
 import Presentation from '@/components/Presentation'
 import login from '@/components/login'
+import capmanage from '@/components/capmanage'
+import capaddress from '@/components/capaddress'
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +60,16 @@ export default new Router({
       path:'/Presentation',
       name:'Presentation',
       component:Presentation
+    },
+    {
+      path:'/capmanage',
+      name:'capmanage',
+      component:capmanage
+    },
+    {
+      path:'/capaddress',
+      name:'capaddress',
+      component:capaddress
     }
   ]
 })
